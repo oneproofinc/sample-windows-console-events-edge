@@ -1,101 +1,129 @@
-# USB Event Monitoring Console App (Windows)
+# ONEPROOF Edge USB Event Monitoring Console App (Windows)
 
-This sample console application demonstrates how to monitor USB events using a native Windows DLL (`usb_new.dll`) with C#. It captures various USB and BLE events and prints human-readable output to the console.
+This sample console application demonstrates how to integrate with ONEPROOF Edge devices using our native Windows DLL (`edge_windows.dll`). It provides a reference implementation for monitoring USB and BLE events from ONEPROOF Edge devices, with detailed event logging and data verification capabilities.
+
+## What is ONEPROOF?
+
+ONEPROOF provides comprehensive solutions for ISO 18013-5 and ISO 18013-7 compliant Mobile Driver's License (mDL) and National ID verification. Our product suite includes:
+
+### Core Products
+- **Mobile SDK**: Native libraries for iOS and Android to integrate mDL verification into mobile applications for ISO 18013-5 compliance
+- **Server Deployments**: Scalable server solutions for enterprise-grade identity verification
+- **APIs**: RESTful APIs for seamless integration with existing systems
+- **Container Images**: Docker containers for easy deployment in cloud environments with ISO 18013-7 compliance
+- **Edge Device**: Embedded hardware verification device for secure mDL and National ID scanning
+- **Custom Solutions**: Tailored hardware and software solutions for specific use cases
+
+### Key Features
+- **ISO Compliance**: Full support for ISO 18013-5 and ISO 18013-7 standards
+- **Multi-Platform Support**: Solutions for mobile, desktop, and server environments
+- **Secure Verification**: End-to-end encrypted verification process
+- **Custom Firmware**: Specialized firmware for specific verification requirements
+- **Hardware Solutions**: Dedicated verification devices and custom hardware options
+- **Integration Support**: Comprehensive documentation and developer tools
+
+### Use Cases
+- Mobile Driver's License verification
+- National ID verification
+- Age verification
+- Identity authentication
+- Banking & Finance
+- Retail
+- Access control
+- Compliance reporting
+
+Learn more about our complete product suite at [https://oneproof.com](https://oneproof.com)
 
 ## 🔧 Requirements
 
 - Windows OS (x64)
 - .NET 6.0 or later
-- Native DLL: `usb_new.dll` and `edge_windows.dll` must be present in the output (`bin`) directory
+- ONEPROOF Edge device
+- Native DLLs: `edge_windows.dll` (contact ONEPROOF for access)
 
-## 📁 Setup Instructions (For Customers)
+## 🚀 Getting Started (For Developers)
 
-1. **Clone or download this repository.**
+1. **Clone this repository**
 
-2. **Build the project using Visual Studio or the .NET CLI**:
+2. **Build the project**:
    ```bash
    dotnet build
+   ```
 
-3. **Place usb_new.dll and edge_windows.dll into the output directory**:
-(usually bin\Debug\net6.0 or bin\Release\net6.0).
+3. **Add the required DLLs**:
+   - Place `edge_windows.dll` and `edge_windows.dll` in the output directory
+   - Default location: `bin\Debug\net6.0` or `bin\Release\net6.0`
 
-4. Run the console app:
+4. **Run the sample app**:
+   ```bash
+   dotnet run
+   ```
 
-bash
-Copy
-Edit
-dotnet run
-You should see output similar to:
+## 📁 Project Structure
 
-scss
-Copy
-Edit
-[INFO] Monitoring... (5s)
-[12:00:01.123] DEVICE CONNECTED: Device XYZ
-...
-Stopped monitoring.
-Press any key to exit...
+- `Program.cs` – Main entry point demonstrating basic usage
+- `UsbEventService.cs` – Core service class with P/Invoke bindings and USB monitoring logic
 
-Project Structure
-Program.cs – Entry point of the console application.
+## 💻 Integration Guide
 
-UsbEventService.cs – Provides P/Invoke bindings and handles USB monitoring logic.
+### 1. Initialize the Service
 
-Key Components
-UsbEventService
-Handles registration and lifecycle of the USB monitoring session.
+```csharp
+var usbService = new UsbEventService();
+```
 
-Public Methods
-csharp
-Copy
-Edit
-public void StartMonitoring(string json, Action<string> onEvent, bool verify, int timeoutSeconds = 30)
-json: Configuration string specifying which data elements to request.
+### 2. Start Monitoring
 
-onEvent: Callback for event logging (e.g., Console.WriteLine).
+```csharp
+usbService.StartMonitoring(
+    json: "{ \"org.iso.18013.5.1\": { \"issuing_country\": true } }",
+    onEvent: (eventData) => Console.WriteLine(eventData),
+    verify: true,
+    timeoutSeconds: 30
+);
+```
 
-verify: Whether to perform data verification.
+### 3. Handle Events
 
-timeoutSeconds: Duration to monitor before stopping automatically.
+The service supports the following event types:
 
-Event Types
-Code	Event Name
-1	DEVICE CONNECTED
-2	DEVICE DISCONNECTED
-3	QRCODE SCANNED
-4	DEVICE HKDF KEY
-5	BLE CONNECTED
-6	BLE DISCONNECTED
-7	BLE SENDING
-8	BLE RECEIVING
-9	DATA RECEIVED
-10	VERIFYING DATA
-11	ERROR
-other	UNKNOWN
+| Code | Event Name | Description |
+|------|------------|-------------|
+| 1 | DEVICE CONNECTED | ONEPROOF Edge device connected |
+| 2 | DEVICE DISCONNECTED | ONEPROOF Edge device disconnected |
+| 3 | QRCODE SCANNED | QR code scanned from device |
+| 4 | DEVICE HKDF KEY | Device key received |
+| 5 | BLE CONNECTED | BLE connection established |
+| 6 | BLE DISCONNECTED | BLE connection terminated |
+| 7 | BLE SENDING | Data being sent via BLE |
+| 8 | BLE RECEIVING | Data being received via BLE |
+| 9 | DATA RECEIVED | Data successfully received |
+| 10 | VERIFYING DATA | Data verification in progress |
+| 11 | ERROR | Error occurred during operation |
 
-Native Methods (via usb_new.dll)
-csharp
-Copy
-Edit
-[DllImport("usb_new.dll")] 
+## 🔌 Native Integration
+
+The sample uses the following native methods from `edge_windows.dll`:
+
+```csharp
+[DllImport("edge_windows.dll")] 
 public static extern void register_event_callback(UsbEventCallback callback);
 
-[DllImport("usb_new.dll")] 
+[DllImport("edge_windows.dll")] 
 public static extern void start_usb_monitoring(byte[] dataPtr, UIntPtr dataLen, bool verify);
 
-[DllImport("usb_new.dll")] 
+[DllImport("edge_windows.dll")] 
 public static extern void stop_usb_monitoring();
 
-[DllImport("usb_new.dll")] 
+[DllImport("edge_windows.dll")] 
 public static extern bool is_monitoring_active();
-⚠️ Ensure usb_new.dll is compiled for the same architecture (x64) as your .NET runtime.
+```
 
-🧪 Sample JSON Format
-The json string passed to StartMonitoring defines the data request schema:
+## 📝 Data Request Format
 
-json
-Copy
-Edit
+The JSON configuration specifies which data elements to request from the ONEPROOF Edge device:
+
+```json
 {
   "org.iso.18013.5.1": {
     "family_name": false,
@@ -106,10 +134,15 @@ Edit
     "issuing_authority": true
   }
 }
-Fields with true are requested. Others are ignored.
+```
 
-📄 License
-This project is provided as a sample for demonstration purposes. Licensing of usb_new.dll or edge_windows.dll is not covered and should be obtained from the respective provider.
+## ⚠️ Important Notes
 
-📞 Support
-For any issues using or integrating this sample, please contact your technical support representative or system integrator.
+- Ensure `edge_windows.dll` is compiled for x64 architecture
+- The ONEPROOF Edge device must be connected via USB
+- Proper error handling should be implemented in production code
+- Contact ONEPROOF for licensing and support
+
+## 📞 Support
+
+For integration support or to obtain the required DLLs, please contact ONEPROOF technical support.
