@@ -48,7 +48,7 @@ public class UsbEventService
         onEvent?.Invoke("Stopped monitoring.");
     }
 
-    private string GetEventTypeName(int eventType)
+    public string GetEventTypeName(int eventType)
     {
         return eventType switch
         {
