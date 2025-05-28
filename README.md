@@ -169,6 +169,42 @@ When verification is enabled (`verify: true`), the device returns a JSON respons
 - `isoaamva_verified_values`: CBOR-encoded values from AAMVA verification (requires decoding)
 - `errors_during_verification`: Any errors encountered during verification
 
+### Non-Verification Mode
+
+When verification is disabled (`verify: false`), the device will return encrypted data that you need to verify yourself. The process involves two key events:
+
+1. **Device Key Event** (Code 4):
+   - Event: `DEVICE HKDF KEY`
+   - Description: Device key received
+   - This key is required to decrypt the data
+
+2. **Data Event** (Code 9):
+   - Event: `DATA RECEIVED`
+   - Description: Data successfully received
+   - Contains the CBOR Encoded data
+
+The CBOR Encoded data will be in one of these formats:
+
+```cbor
+{
+  "data": "EncryptedData"
+}
+```
+
+or
+
+```cbor
+{
+  "data": "EncryptedData",
+  "status": 20
+}
+```
+
+You'll need to:
+1. Store the device key when received (Event Code 4)
+2. Use the key to decrypt the data when received (Event Code 9) based on ISO 18013-5.
+3. Perform your own verification of the decrypted data including IACA Cert Validation.
+
 ### CBOR Decoding
 The `isomain_verified_values` and `isoaamva_verified_values` fields contain CBOR-encoded data that needs to be decoded to access the actual values. You'll need to use a CBOR decoder library to process these fields.
 
