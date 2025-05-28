@@ -7,16 +7,16 @@ public class UsbEventService
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void UsbEventCallback(int eventType, IntPtr timeStamp, IntPtr message);
 
-    [DllImport("usb_new.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("edge_windows.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void register_event_callback(UsbEventCallback callback);
 
-    [DllImport("usb_new.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("edge_windows.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void start_usb_monitoring(byte[] dataPtr, UIntPtr dataLen, bool verify);
 
-    [DllImport("usb_new.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("edge_windows.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void stop_usb_monitoring();
 
-    [DllImport("usb_new.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("edge_windows.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool is_monitoring_active();
 
     private UsbEventCallback? _callback;
