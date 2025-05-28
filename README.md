@@ -145,4 +145,4 @@ The JSON configuration specifies which data elements to request from the ONEPROO
 
 ## 📞 Support
 
-For integration support or to obtain the required DLLs, please contact ONEPROOF technical support.
+For integration support or to obtain the required DLLs, please contact ONEPROOF technical support at [support@oneproof.com](mailto:support@oneproof.com).
