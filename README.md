@@ -136,6 +136,88 @@ The JSON configuration specifies which data elements to request from the ONEPROO
 }
 ```
 
+## 🔍 Verification Response Format
+
+When verification is enabled (`verify: true`), the device returns a JSON response with verification results. Here's an example response:
+
+```json
+{
+  "doc_type_matched": true,
+  "validity_matched": false,
+  "isomain_mso_verified": true,
+  "cert_path_verified": false,
+  "cert_cn_verified": false,
+  "cert_stpv_verified": false,
+  "cose_verified": true,
+  "isomain_verified_values": "868268706f7274...",
+  "isoaamva_mso_verified": false,
+  "isoaamva_verified_values": "",
+  "errors_during_verification": ""
+}
+```
+
+### Response Fields
+- `doc_type_matched`: Whether the document type matches expected doctype
+- `validity_matched`: Whether the document is valid and not expired
+- `isomain_mso_verified`: Whether the ISO MSO (Mobile Security Object) is verified
+- `cert_path_verified`: Whether the certificate path is valid
+- `cert_cn_verified`: Whether the Common Name in certificate is verified
+- `cert_stpv_verified`: Whether the Subject Type Public Key verification passed
+- `cose_verified`: Whether the CBOR Object Signing and Encryption (COSE) is verified
+- `isomain_verified_values`: CBOR-encoded values from ISO verification (requires decoding)
+- `isoaamva_mso_verified`: Whether the AAMVA MSO is verified
+- `isoaamva_verified_values`: CBOR-encoded values from AAMVA verification (requires decoding)
+- `errors_during_verification`: Any errors encountered during verification
+
+### Non-Verification Mode
+
+When verification is disabled (`verify: false`), the device will return encrypted data that you need to verify yourself. The process involves two key events:
+
+1. **Device Key Event** (Code 4):
+   - Event: `DEVICE HKDF KEY`
+   - Description: Device key received
+   - This key is required to decrypt the data
+
+2. **Data Event** (Code 9):
+   - Event: `DATA RECEIVED`
+   - Description: Data successfully received
+   - Contains the CBOR Encoded data
+
+The CBOR Encoded data will be in one of these formats:
+
+```cbor
+{
+  "data": "EncryptedData"
+}
+```
+
+or
+
+```cbor
+{
+  "data": "EncryptedData",
+  "status": 20
+}
+```
+
+You'll need to:
+1. Store the device key when received (Event Code 4)
+2. Use the key to decrypt the data when received (Event Code 9) based on ISO 18013-5.
+3. Perform your own verification of the decrypted data including IACA Cert Validation.
+
+### CBOR Decoding
+The `isomain_verified_values` and `isoaamva_verified_values` fields contain CBOR-encoded data that needs to be decoded to access the actual values. You'll need to use a CBOR decoder library to process these fields.
+
+Example using C#:
+```csharp
+using PeterO.Cbor;
+
+// Decode CBOR data
+var cborData = CBORObject.DecodeFromBytes(Convert.FromHexString(isomain_verified_values));
+// Access decoded values
+var decodedValues = cborData.ToJSONString();
+```
+
 ## ⚠️ Important Notes
 
 - Ensure `edge_windows.dll` is compiled for x64 architecture
