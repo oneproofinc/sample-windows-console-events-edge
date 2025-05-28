@@ -17,6 +17,9 @@ class Program
         }";
 
         var service = new UsbEventService();
+        // verify parameter controls whether the DLL performs verification:
+        // true = DLL will perform verification
+        // false = verification will be skipped
         var verify = true;
         service.StartMonitoring(json, Console.WriteLine, verify, timeoutSeconds: 30);
 
