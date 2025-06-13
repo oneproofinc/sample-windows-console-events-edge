@@ -1,0 +1,15 @@
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\bin\Debug\net9.0\sample-windows-console-events-edge.exe
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\bin\Debug\net9.0\sample-windows-console-events-edge.deps.json
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\bin\Debug\net9.0\sample-windows-console-events-edge.runtimeconfig.json
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\bin\Debug\net9.0\sample-windows-console-events-edge.dll
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\bin\Debug\net9.0\sample-windows-console-events-edge.pdb
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.AssemblyInfoInputs.cache
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.AssemblyInfo.cs
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.csproj.CoreCompileInputs.cache
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.sourcelink.json
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.dll
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\refint\sample-windows-console-events-edge.dll
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.pdb
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\sample-windows-console-events-edge.genruntimeconfig.cache
+C:\Users\madhu\proof\openverify\desktop\sample-windows-console-events-edge\obj\Debug\net9.0\ref\sample-windows-console-events-edge.dll
