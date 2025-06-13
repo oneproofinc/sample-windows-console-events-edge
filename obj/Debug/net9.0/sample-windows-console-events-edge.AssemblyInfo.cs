@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sample-windows-console-events-edge")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+694ba10ac37bbe0f8c387a3079215c6bc76a6a24")]
 [assembly: System.Reflection.AssemblyProductAttribute("sample-windows-console-events-edge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sample-windows-console-events-edge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
